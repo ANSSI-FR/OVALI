@@ -10372,7 +10372,9 @@ var PhysicsEngine = (function () {
       if (this.stabilized === true) {
         this._emitStabilized();
       } else {
-        this.startSimulation();
+        // Prevent large complicated graphs from buzzing around after
+        // stabilization.
+        //this.startSimulation();
       }
 
       this.ready = true;
