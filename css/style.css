@@ -265,6 +265,7 @@ ul.context-menu li.disabled, ul.context-menu li.disabled:hover {
 
 span.status.default { background: #CCC; border-color: #212121;}
 span.status.user { background: rgba(128,178,255,1); border-color: rgba(0,71,178,1);}
+span.status.inetorgperson { background: rgba(128,178,255,1); border-color: rgba(0,71,178,1);}
 span.status.foreignsecurityprincipal { background: rgba(255,163,102,1); border-color: rgba(143,57,0,1);}
 span.status.computer { background: rgba(214,92,51,1); border-color:rgba(102,26,0,1);}
 span.status.group { background: rgba(112,219,112,1); border-color: rgba(25,100,25,1);}
