@@ -167,14 +167,12 @@ Vizu.options.network = {
  */
 Vizu.options.clustering = [
   {
-    title: "Cluster users in group",
-    type: "group",
-    clusterType: "user",
-    clusterRelations: ["group_member"],
-    clusterRelationsExclusive: true
-  }, {
+    title: 'Cluster similar nodes',
+  },
+  {
     title: 'Cluster connected nodes'
-  }, {
+  },
+  {
     title: "Uncluster",
     uncluster: true
   }
