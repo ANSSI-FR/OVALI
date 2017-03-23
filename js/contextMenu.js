@@ -27,6 +27,48 @@ Vizu.ContextMenu = function (container, graph) {
     graph.resetNodeStyle(graph.network.body.nodes);
     graph.statusbar.reset();
   };
+  
+   /**
+   * Generate Cypher relation deletion command to clipboard
+   */
+  var cypherDelListener = function () {
+    var selectedNodes = graph.network.getSelectedNodes(),
+      selectedEdges = graph.network.getSelectedEdges(),
+      nodes = graph.network.body.data.nodes["_data"],
+      edges = graph.network.body.data.edges["_data"];
+    var output = "MATCH ";
+	if(selectedNodes.length > 0) {
+		output = output.concat("(n)-[r]-(m) WHERE n.name = \"",nodes[selectedNodes[0]]["title"],"\" DELETE r,n;");
+	}
+	else {
+      for (var j = 0; j < selectedEdges.length; j++) {
+        var edge = edges[selectedEdges[j]];
+        var from = nodes[edge["from"]]["title"];
+        var to = nodes[edge["to"]]["title"];
+        var title = edge["title"];
+	    title = title.replace(/<br>/g,"|");
+        output = output.concat("p=({name:\"", from, "\"})-[rel:", title, "]-({name:\"", to, "\"}) DELETE rel;\n");
+      }
+	}
+
+    cText = output.replace(/\n\r?/g, "<br>");
+
+    var editableDiv = document.getElementById("cb");
+
+    with (editableDiv) {
+        contentEditable = true;
+    }
+    editableDiv.innerHTML = cText;
+
+    // select the editable content and copy it to the clipboard
+    var range = document.createRange();
+    var selection = window.getSelection();
+    range.selectNodeContents(editableDiv);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand("Copy");
+    selection.removeAllRanges();
+  };
 
   /**
    * Copy selection to clipboard
@@ -37,9 +79,17 @@ Vizu.ContextMenu = function (container, graph) {
       nodes = graph.network.body.data.nodes["_data"],
       edges = graph.network.body.data.edges["_data"];
     var output = "Nodes:\n";
+	if(graph.network.isCluster(selectedNodes)) {
+		var containedNodes = graph.network.body.nodes[selectedNodes].containedNodes;
+		for (var containedNodeId in containedNodes) {
+		  var containedNode = graph.network.body.data.nodes.get(containedNodeId);
+		  output = output.concat(containedNode["title"],"\n");
+		}
+	}
+	else {
     for (var i = 0; i < selectedNodes.length; i++) {
       output = output.concat(nodes[selectedNodes[i]]["title"],"\n");
-    }
+    }	
     output = output.concat("\nRelationships:\n");
     for (var j = 0; j < selectedEdges.length; j++) {
       var edge = edges[selectedEdges[j]];
@@ -48,6 +98,7 @@ Vizu.ContextMenu = function (container, graph) {
       var title = edge["title"];
       output = output.concat("(", from, ")-[", title, "]-(", to, ")\n");
     }
+	}
 
     cText = output.replace(/\n\r?/g, "<br>");
 
@@ -172,7 +223,104 @@ Vizu.ContextMenu = function (container, graph) {
     graph.network.unselectAll();
     linkListener.call(this, e);
   };
+  
+  /**
+   * Clusterize similar nodes
+   * @param object config the cluster type configuration
+   * @param Event e original event
+   */
+  var clusterSimilarClick = function (config, e) {
+    var selection = graph.network.getSelectedNodes();
+	// select only 1 node
+	if(selection.length !== 1) {
+		return false;
+	}
+    var nodeId = selection[0],
+      node = graph.network.body.data.nodes.get(nodeId),
+	  edges = graph.network.getConnectedEdges(nodeId),
+	  nodeRelations = [];
+	for (var i = 0; i < edges.length; i++) {
+		var edge = graph.network.body.data.edges.get(edges[i]);
+		var direction = "";
+		if(edge["to"] === parseInt(nodeId)) {
+		  direction = "from";
+		}
+		else {
+		  direction = "to";
+		}
+		var target = edge[direction];
+		nodeRelations.push([direction, target, edge["title"]]);
+	}
+	nodeRelations.sort();
 
+	graph.network.cluster(
+	  {
+        clusterNodeProperties: {
+          group: node.baseGroup,
+          baseGroup: node.baseGroup,
+          label: node.baseGroup + 's cluster',  //node.label || '    ' + Vizu.options.network.groups[node.baseGroup].label + '    ', //'    ' + (node.label ? node.label : Vizu.options.groups[node.baseGroup].label) + '    ',
+          shape: 'box',
+          shapeProperties: {
+            borderRadius: 3
+          },
+          title: node.baseGroup + 's cluster',
+          level: node.level
+	    },
+	    joinCondition: function (n1) {
+		  if(n1.baseGroup !== node.baseGroup) {
+		    return false;
+		  }
+		  var n1Edges = graph.network.getConnectedEdges(n1.id);
+		  if(n1Edges.length !== nodeRelations.length) {
+		    return false;
+		  }
+		  var n1Relations = [];
+		  for (var i = 0; i < n1Edges.length; i++) {
+		    var n1Edge = graph.network.body.data.edges.get(n1Edges[i]);
+			var direction = "";
+		    if(n1Edge["to"] === parseInt(n1.id)) {
+		      direction = "from";
+		    }
+		    else {
+		      direction = "to";
+		    }
+		    var target = n1Edge[direction];			
+			n1Relations.push([direction, target, n1Edge["title"]])			
+		  }
+		  n1Relations.sort();
+		  if(JSON.stringify(n1Relations) === JSON.stringify(nodeRelations)) {
+		    return true;
+		  }
+		  else {
+			return false;
+		  }
+		}
+      },
+      true
+	);
+     
+    graph.network.unselectAll();
+    linkListener.call(this, e);
+  };
+
+  /**
+   * Open selected cluster
+   * @param object config the cluster type configuration
+   * @param Event e original event
+   */
+  var clusterOpenClick = function (config, e) {
+    var selection = graph.network.getSelectedNodes();
+	// select only 1 node
+	if(selection.length !== 1) {
+		return false;
+	}
+    var nodeId = selection[0];
+	graph.network.openCluster(nodeId);
+     
+    graph.network.unselectAll();
+    linkListener.call(this, e);
+  };
+  
   var clusterLinkHover = function (e) {
     // cancel event if item is not available
     if (e.currentTarget.classList.contains('disabled')) {
@@ -185,7 +333,15 @@ Vizu.ContextMenu = function (container, graph) {
       li.classList.add('context-item');
       li.textContent = elem.title;
       this.subContextCluster.appendChild(li);
-      li.addEventListener('click', clusterLinkClick.bind(this, elem));
+	  if(elem.title === 'Cluster similar nodes') {
+        li.addEventListener('click', clusterSimilarClick.bind(this, elem));
+	  }
+	  if(elem.title === 'Cluster connected nodes') {
+	    li.addEventListener('click', clusterLinkClick.bind(this, elem));
+	  }
+	  if(elem.title === 'Uncluster') {
+	    li.addEventListener('click', clusterOpenClick.bind(this, elem));
+	  }
     }
     // display it
     displaySubContext(e, this.subContextCluster);
@@ -397,6 +553,9 @@ Vizu.ContextMenu = function (container, graph) {
     var link = links[i];
     if (!link.classList.contains('context-item-submenu')) {
       link.addEventListener('click', linkListener.bind(this), false);
+    }
+	if (link.id === 'cypherDeleteToClipboard') {
+      link.addEventListener('click', cypherDelListener.bind(this), false);
     }
     if (link.id === 'copyToClipboard') {
       link.addEventListener('click', clipboardListener.bind(this), false);

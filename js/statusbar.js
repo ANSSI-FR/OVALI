@@ -30,13 +30,28 @@ Vizu.Statusbar = function(graph, nodes, edges) {
 
     return el;
   };
+  
+  var createElementFromCluster = function(node) {
+	var containedNodes = graph.network.body.nodes[node.id].containedNodes;
+	var elCluster = document.createElement('div');
+	for (var containedNodeId in containedNodes) {
+		var el = document.createElement('span');
+        el.classList.add('status');
+        el.classList.add(node.baseGroup);
+		var containedNode = graph.network.body.data.nodes.get(containedNodeId);
+		el.textContent = containedNode["title"];
+		elCluster.appendChild(el);
+	}
+
+    return elCluster;
+  };
 
   this.update = function(object) {
     visibleStatus.innerHTML = '';
     var el;
     if (object.node) {
       if (graph.network.isCluster(object.node)) {
-        el = createElementFromNode(graph.network.body.nodes[object.node].options);
+        el = createElementFromCluster(graph.network.body.nodes[object.node].options);
       } else {
         var node = nodes.get(object.node);
         el = createElementFromNode(node);
