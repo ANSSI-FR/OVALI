@@ -30,6 +30,11 @@ Vizu.colors = {
   urodomaincontroller: {background: "#b6c6b9", border: "#afb2af", highlight: {background: "#33673b", border: "#19231a"}}
 };
 
+Vizu.edges_style = {
+    // example: group_member: {color: "#ff0000", dashes: true, width: 4},
+    primary_group: {color: "#00ff00"}
+};
+
 Vizu.options = {
   data: {
     properties: {

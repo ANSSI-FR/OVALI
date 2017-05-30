@@ -50,7 +50,8 @@ Vizu.Graph.prototype = (function () {
     }
     for (var j = 0; j < data.links.length; j++) {
       var l = data.links[j];
-      edges.add({
+
+      edge = {
         from: l.source,
         to: l.target,
         data: {
@@ -63,9 +64,13 @@ Vizu.Graph.prototype = (function () {
           type: l.type
         },
         arrows: l.type === 'double' ? 'to, from' : 'to',
-        color: l.color,
         title: l.rels.join('<br>')
-      });
+      };
+      for (var k = 0; k < l.rels.length; ++k) {
+          Object.assign(edge, Vizu.edges_style[l.rels[k]]);
+      }
+
+      edges.add(edge);
     }
 
     // create a network
