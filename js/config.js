@@ -14,6 +14,7 @@ Vizu.colors = {
   subnet: {background: "#d7e798", border: "#b3c397", highlight: {background: "#d7e798", border: "#b3c397"}},
   domaincontroller: {background: "#ee7a51", border: "#d53700", highlight: {background: "#ee7a51", border: "#d53700"}},
   rodomaincontroller: {background: "#33673b", border: "#19231a", highlight: {background: "#33673b", border: "#19231a"}},
+  email: {background: "#ffff00", border: "#212121", highlight: {background: "#ffff00", border: "#212121"}},
   // unselected colors
   udefault: {background: "#E4E4E4", border: "#B1B1B1", highlight: {background: "#CCCCCC", border: "#212121"}},
   uuser: {background: "#cddcf3", border: "#a7bcdc", highlight: {background: "#80b2ff", border: "#0047b2"}},
@@ -27,7 +28,9 @@ Vizu.colors = {
   usite: {background: "#cebec9", border: "#c9aeb9", highlight: {background: "#824c71", border: "#70163c"}},
   usubnet: {background: "#e7ecd5", border: "#dde1d4", highlight: {background: "#d7e798", border: "#b3c397"}},
   udomaincontroller: {background: "#eeccbf", border: "#e7b8a7", highlight: {background: "#ee7a51", border: "#d53700"}},
-  urodomaincontroller: {background: "#b6c6b9", border: "#afb2af", highlight: {background: "#33673b", border: "#19231a"}}
+  urodomaincontroller: {background: "#b6c6b9", border: "#afb2af", highlight: {background: "#33673b", border: "#19231a"}},
+  uemail: {background: "#ffff9f", border: "#B1B1B1", highlight: {background: "#ffff9f", border: "#212121"}},
+
 };
 
 Vizu.edges_style = {
@@ -70,7 +73,8 @@ Vizu.options.network = {
     site: {label: "s", color: Vizu.colors.site},
     subnet: {label: "n", color: Vizu.colors.subnet},
     domaincontroller: {label: "d", color: Vizu.colors.domaincontroller},
-    rodomaincontroller: {label: "r", color: Vizu.colors.rodomaincontroller}
+    rodomaincontroller: {label: "r", color: Vizu.colors.rodomaincontroller},
+    email: {label: "e", color: Vizu.colors.email}
   },
   height: '100%',
   layout: {
