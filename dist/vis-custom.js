@@ -3413,7 +3413,7 @@ function newSyntaxError(message) {
  * @returns {String}
  */
 function chop(text, maxLength) {
-  return text.length <= maxLength ? text : text.substr(0, 27) + '...';
+  return text.length <= maxLength ? text : text.substr(0, maxLength-3) + '...';
 }
 
 /**
