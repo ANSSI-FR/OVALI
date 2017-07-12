@@ -32,6 +32,22 @@ html, body, #mynetwork, #wrapper {
     padding: 1em;
 }
 
+#initLoad #dragArea {
+    margin: 1em 20%;
+    padding: 100px 20px;
+    text-align: center;
+    font-size: 1.25em;
+    background-color: white;
+    border: 2px dashed #ccc;
+    border-radius: 25px;
+}
+
+#initLoad #dragArea.is-dragover {
+    background-color: white;
+    border: 2px solid #bbb;
+    color: gray;
+}
+
 div.vis-network-tooltip {
     color: #333;
     background-color: #FFF;

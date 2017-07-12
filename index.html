@@ -80,9 +80,7 @@
       </div>
       <div id="searchResults"></div>
     </div>
-
-    <div id="cb" style="position: absolute; left: -2000px"></div>
-
+    <div id="cb"></div>
     <ul class="context-menu" id="contextMenu">
       <li class="disabled context-item" data-min-node-or-edge="1" id="delLink">Remove selection</li>
       <li class="disabled context-item" data-min-selection="1" id="fixLink">Fix/unfix selection</li>
@@ -121,6 +119,7 @@
       <h1>OVALI</h1>
       <p>Vizualization tool</p>
       <a href="#" class="button" id="loadFile">Open file...</a>
+      <div id="dragArea">... or drop a file here.</div>
     </div>
 
   <script type="text/javascript" src="js/config.js"></script>
@@ -136,6 +135,15 @@
     var Vizu = Vizu || {};
     var graph = new Vizu.Graph('mynetwork', Vizu.options);
 
+    Vizu.readFile = function(file) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function(e) {
+        var data = JSON.parse(e.target.result);
+        graph.setData.call(graph, data);
+      });
+      reader.readAsText(file);
+    }
+
     Vizu.triggerLoad = function(e) {
       e.preventDefault();
       var input = document.createElement('input');
@@ -144,12 +152,7 @@
       document.body.appendChild(input);
       input.addEventListener('change', function() {
         this.parentNode.removeChild(this);
-        var reader = new FileReader();
-        reader.addEventListener('load', function(e) {
-          var data = JSON.parse(e.target.result);
-          graph.setData.call(graph, data);
-        });
-        reader.readAsText(this.files[0]);
+        Vizu.readFile(this.files[0]);
       });
       input.click(e);
     }
@@ -160,7 +163,38 @@
       }
     });
 
+    // Drag & Drop upload
+    Vizu.setupDragAndDropArea = function(div) {
+      var hasDragAndDropUpload = (
+        (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) &&
+        'FormData' in window &&
+        'FileReader' in window);
+      if (!hasDragAndDropUpload) {
+        div.style.display = 'none';
+        return;
+      }
 
+      ['drag', 'dragend', 'dragenter', 'dragleave', 'dragover', 'dragstart', 'drop'].forEach(function(eventName) {
+        div.addEventListener(eventName, function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      });
+      ['dragover', 'dragenter'].forEach(function(eventName) {
+        div.addEventListener(eventName, function(e) {
+          div.classList.add('is-dragover');
+        });
+      });
+      ['dragleave', 'dragend', 'drop'].forEach(function(eventName) {
+        div.addEventListener(eventName, function(e) {
+          div.classList.remove('is-dragover');
+        });
+      });
+      div.addEventListener('drop', function(e) {
+        Vizu.readFile(e.dataTransfer.files[0]);
+      });
+    };
+    Vizu.setupDragAndDropArea(document.getElementById('dragArea'));
   </script>
 </body>
 </html>
