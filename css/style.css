@@ -293,6 +293,7 @@ span.status.subnet { background:#d7e798; border-color: #b3c397;}
 span.status.domaincontroller { background: #ee7a51; border-color: #d53700;}
 span.status.rodomaincontroller { background: #33673b; border-color: #19231a;}
 span.status.email { background: #ffff00; border-color: #212121;}
+span.status.sshkey { background: #e680ff; border-color: #8e00b2;}
 
 #statusbar #selectionDetails span {
     display: block;
