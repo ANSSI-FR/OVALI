@@ -50,7 +50,6 @@ Vizu.Graph.prototype = (function () {
     }
     for (var j = 0; j < data.links.length; j++) {
       var l = data.links[j];
-
       edge = {
         from: l.source,
         to: l.target,
@@ -194,7 +193,6 @@ Vizu.Graph.prototype = (function () {
     }
   };
 
-
   // Increment loading bar length on progress event
   var stabilizationProgressFunction = function(params) {
     var maxWidth = 496;
@@ -224,5 +222,4 @@ Vizu.Graph.prototype = (function () {
     neighbourhoodHighlight: neighbourhoodHighlight,
     setData: setData
   };
-
 })();

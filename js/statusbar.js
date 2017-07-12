@@ -45,13 +45,14 @@ Vizu.Statusbar = function(graph, nodes, edges) {
 
     return elCluster;
   };
-
   this.update = function(object) {
     visibleStatus.innerHTML = '';
     var el;
     if (object.node) {
       if (graph.network.isCluster(object.node)) {
+
         el = createElementFromCluster(graph.network.body.nodes[object.node].options);
+
       } else {
         var node = nodes.get(object.node);
         el = createElementFromNode(node);

@@ -223,7 +223,7 @@ Vizu.ContextMenu = function (container, graph) {
     graph.network.unselectAll();
     linkListener.call(this, e);
   };
-  
+
   /**
    * Clusterize similar nodes
    * @param object config the cluster type configuration
@@ -320,7 +320,7 @@ Vizu.ContextMenu = function (container, graph) {
     graph.network.unselectAll();
     linkListener.call(this, e);
   };
-  
+
   var clusterLinkHover = function (e) {
     // cancel event if item is not available
     if (e.currentTarget.classList.contains('disabled')) {
@@ -333,6 +333,7 @@ Vizu.ContextMenu = function (container, graph) {
       li.classList.add('context-item');
       li.textContent = elem.title;
       this.subContextCluster.appendChild(li);
+
 	  if(elem.title === 'Cluster similar nodes') {
         li.addEventListener('click', clusterSimilarClick.bind(this, elem));
 	  }

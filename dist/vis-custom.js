@@ -1843,7 +1843,7 @@ var Images = (function () {
     }
 
     /**
-     * @param {string} url                      The Url to cache the image as 
+     * @param {string} url                      The Url to cache the image as
       * @return {Image} imageToLoadBrokenUrlOn  The image object
      */
 
@@ -1906,7 +1906,7 @@ var Images = (function () {
         value: function load(url, brokenUrl, id) {
             var _this2 = this;
 
-            //Try and get the image from the cache, if successful then return the cached image  
+            //Try and get the image from the cache, if successful then return the cached image
             var cachedImage = this.images[url];
             if (cachedImage) return cachedImage;
 
@@ -3413,7 +3413,7 @@ function newSyntaxError(message) {
  * @returns {String}
  */
 function chop(text, maxLength) {
-  return text.length <= maxLength ? text : text.substr(0, 27) + '...';
+  return text.length <= maxLength ? text : text.substr(0, maxLength) + '...';
 }
 
 /**
