@@ -40,6 +40,7 @@ Vizu.Graph.prototype = (function () {
         title: n[this.options.data.properties.nodes.title],
         shortName: n[this.options.data.properties.nodes.short],
         level: n[this.options.data.properties.nodes.level],
+	hidden: n[this.options.data.properties.nodes.hidden] ? n[this.options.data.properties.nodes.hidden] : false,
         tags: new Vizu.TagList(),
         value: 0 === n.dist ? 10 : 1
       };
@@ -53,6 +54,7 @@ Vizu.Graph.prototype = (function () {
       edge = {
         from: l.source,
         to: l.target,
+        hidden: l[this.options.data.properties.edges.hidden] ? l[this.options.data.properties.edges.hidden] : false,
         data: {
           rels: l.rels,
           fromShortName: nodes.get(l.source).shortName,
