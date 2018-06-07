@@ -48,9 +48,11 @@ Vizu.options = {
         title: 'name',
         short: 'shortname',
         level: 'dist',
+	hidden: 'hidden',
         label: false
       },
       edges: {
+	hidden: 'hidden',
         from: 'source',
         to: 'target'
       }
