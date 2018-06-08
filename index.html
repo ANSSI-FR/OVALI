@@ -137,6 +137,7 @@
 
     Vizu.readFile = function(file) {
       var reader = new FileReader();
+      document.title = "OVALI "+file.name;
       reader.addEventListener('load', function(e) {
         var data = JSON.parse(e.target.result);
         graph.setData.call(graph, data);
