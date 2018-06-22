@@ -43,7 +43,8 @@ Vizu.options = {
   data: {
     properties: {
       nodes: {
-        id: false,
+        // How edges reference nodes: False is loop order-based id, true is id from node property
+        id: true,
         group: 'type',
         title: 'name',
         short: 'shortname',
