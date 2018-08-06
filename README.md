@@ -17,7 +17,7 @@ tested on other browsers. Javascript File API is required.
 
 Press `Ctrl` + `o` or press the `Open file...` button to select the data you want to display.
 
-After loading the file, a progressbar is shown. The library tries to stabilize the graph. 
+After loading the file, a progress bar is shown. The library tries to stabilize the graph.
 This can take some time, depending on the graph size.
 
 If the graph is not stabilized after 2000 iterations, it is shown anyway. you will be able to tweak the 
@@ -28,7 +28,7 @@ configuration by using the right toolbar which exposes all the parameters used f
 You can select nodes and edges, drag nodes, zoom in and out using the mouse. Multiple node and edges
 selection can be achieved by pressing `Ctrl` while selection is done.
 
-Hovering a node or an edge displays its properties in a tooltip. The statusbar at the bottom of the
+Hovering a node or an edge displays its properties in a tooltip. The status bar at the bottom of the
 interface displays more detailed information, i.e. source and target nodes for an edge.
 
 Using the right click button on a node, or in an empty area of the graph will display the context
@@ -37,12 +37,12 @@ menu. This menu offers available actions depending on the current selection:
 - Fix/unfix selection: this action will fix the position of the selected nodes. These won't be
   affected by the physics simulation anymore.
 - Cluster/Uncluster selection: This submenu will display configured clustering actions. The clusters
-  will be made using differents parameters exposed below. See advanced configuration for more info.
+  will be made using different parameters exposed below. See advanced configuration for more info.
 - Tag selection: Use it to apply a tag to your selection, or create and apply a new one.
 - Untag selection: Removes the tag (if applied) from the selection.
 - Select tag: Selects all nodes and edges that have a particular tag applied.
 - Shortest path to root: Selects the nodes on the shortest path that goes to the root node (deph=0).
-- Select same type nodes: Selectds all the node that have the same type that the currently selected
+- Select same type nodes: Selects all the node that have the same type that the currently selected
   node.
 
 ### Search
@@ -59,7 +59,7 @@ the search field is focused.
 ## 3. Configuration
 
 Using the right toolbar, by pressing the menu button, gives you access to the full graph configuration.
-Here are some of the most usefull options:
+Here are some of the most useful options:
 - Layout:
   - hierarchical: to display nodes and relations using a hierarchical tree 
 - Interaction:
