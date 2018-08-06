@@ -28,13 +28,13 @@ Vizu.Graph.prototype = (function () {
         group = getGroup(n, this.options),
         node;
       if (0 === n.dist) {
-        this.rootId = this.options.data.properties.id ? n[this.options.data.properties.id] : i
+        this.rootId = this.options.data.properties.nodes.id ? n[this.options.data.properties.nodes.id] : i
       }
       node = {
         // we use the count of the loop as an id if the id property setting is false
         // this is in case the edges properties "from" and "to" are referencing
         // the order of the node, not the real id.
-        id: this.options.data.properties.id ? n[this.options.data.properties.id] : i,
+        id: this.options.data.properties.nodes.id ? n[this.options.data.properties.nodes.id] : i,
         group: group,
         baseGroup: group,
         title: n[this.options.data.properties.nodes.title],
